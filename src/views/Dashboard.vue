@@ -25,10 +25,10 @@
 
 <script>
 
-  import Column from '../components/Column.vue';
-  import ApiColumn from '../api/Column';
-//import ApiCard from '../api/Card';
-//import Vue from 'vue';
+import Vue from 'vue';
+import Column from '../components/Column.vue';
+import ApiColumn from '../api/Column';
+import ApiCard from '../api/Card';
 
 export default {
 
@@ -50,12 +50,29 @@ export default {
 
   methods: {
 
-    atualizarDados() {
-      ApiColumn.carregar((data) => {
-        this.columns = data;
-      },() => {
-        this.$toast.error('Erro ao carregar os dados');
-      });
+    columnArchive(column) {
+
+      let cIndex = this.columns.findIndex((c) => c.id == column.id);
+
+      if (cIndex >= 0) {
+        
+        ApiColumn.arquivar(column, () => {
+          this.columns.splice(cIndex, 1);
+        }, (err) => {
+          
+          if (typeof err !== 'undefined') {
+            Vue.$toast.open({
+              type: 'error',
+              position: 'top',
+              message: err
+            }); 
+          }
+           
+        });
+      } else {
+        this.$toast.error('Não foi possível localizar a coluna localmente');
+      }
+
     },
 
     clickSaveColumn() {
@@ -76,7 +93,52 @@ export default {
 
       });
 
+    },
+
+    atualizarDados() {
+      ApiColumn.carregar((data) => {
+        this.columns = data;
+      }, () => {
+        this.$toast.error('Erro ao carregar os dados');
+      });
+    },
+
+    columnChange(obj) {
+
+      ApiColumn.atualizar(obj, () => {
+        this.atualizarDados();
+      }, () => {
+        this.$toast.error('Ocorreu um erro ao atualizar o titulo da coluna.');
+      });
+
+    },
+
+    cardSave(idColumn, card) {
+
+        ApiCard.atualizar(card, () => {
+          this.atualizarDados();
+        }, () => {
+          this.$toast.error(`Ocorreu um erro ao atualizar o card ${card.todo}`);
+        });
+
+    },
+
+    cardAdd(idColumn, card) {
+      ApiCard.adicionar(idColumn, card, () => {
+        this.atualizarDados();
+      }, () => {
+        this.$toast.error(`Ocorreu um erro ao adicionar o card ${card.todo}`);
+      }); 
+    },
+
+    cardArchive(idColumn, card) {
+      ApiCard.arquivar(card, () => {
+        this.atualizarDados();
+      }, () => {
+        this.$toast.error(`Ocorreu um erro ao arquivar o card ${card.todo}`);
+      });
     }
+    
   }
 }
 </script>

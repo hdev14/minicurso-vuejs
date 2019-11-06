@@ -21,11 +21,13 @@ export default {
     arquivar(card, success, error) {
         
         Vue.axios.delete('card/'+card.id).then((response) => {
+            
             if (Math.floor(response.status/100) === 2) {
                 if (success) success(response.data);
-            } else {
-                if (error) error();
+            } else if (error) {
+                error();
             }
+
         }).catch((err) => {
             if (error) error(err);
         });

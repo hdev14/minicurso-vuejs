@@ -26,24 +26,27 @@ export default {
         
         if (typeof obj.id !== 'undefined') {
             
-            Vue.axios.patch('column/'+obj.id,{
+            Vue.axios.patch('column/'+obj.id, {
                 name: obj.title
             }).then((response) => {
                 //Vue.$toast.success('Coluna atualizada');
                 if (success) success(response.data);
+
             }).catch((err) => {
+
                 let message = 'Não foi possível atualizar a coluna remotamente';
                 
-                if (typeof err !== 'undefined') message = err;
+                if (typeof err !== 'undefined') 
+                    message = err;
                 
                 Vue.$toast.error(message);
                 
                 if (error) error(err);
             });
 
-        }
-        
-        if (error) error();
+        } else if (error) {
+            error();
+        }     
     },
 
     arquivar(column, success, error) {
