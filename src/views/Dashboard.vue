@@ -44,93 +44,22 @@ export default {
     },
     methods: {
         atualizarDados() {
-            ApiColumn.carregar((data) => {
-                this.columns = data;
-            },() => {
-                this.$toast.error('Erro ao carregar os dados');
-            });
         },
         columnChange(column) {
-            let cIndex = this.columns.findIndex((c) => c.id == column.id);
-            if (cIndex >= 0) {
-                ApiColumn.atualizar(column,(data) => {
-                    this.columns[cIndex].name = data.name;
-                    this.columns[cIndex].cards = data.cards;
-                },(err) => {
-                    if (typeof err != 'undefined') Vue.$toast.open({type: 'error',position: 'top',message: err});
-                });
-            } else {
-                this.$toast.error('Não foi possível localizar a coluna localmente');
-            }
         },
         columnArchive(column) {
-            let cIndex = this.columns.findIndex((c) => c.id == column.id);
-            if (cIndex >= 0) {
-                ApiColumn.arquivar(column,() => {
-                    this.columns.splice(cIndex,1);
-                },(err) => {
-                    if (typeof err != 'undefined') Vue.$toast.open({type: 'error',position: 'top',message: err});
-                });
-            } else {
-                this.$toast.error('Não foi possível localizar a coluna localmente');
-            }
         },
 
         cardSave(idColumn,card) {
-            let index = this.columns.findIndex((c) => c.id == idColumn);
-            if (index >= 0) {
-                ApiCard.atualizar({id: card.id, todo: card.todo},(data) => {
-                    let cardIndex = this.columns[index].cards.findIndex((x) => x.id == card.id);
-                    if (cardIndex >= 0) {
-                        //atualiza os dados do cartão localmente
-                        this.columns[index].cards[cardIndex] = data;
-                    }
-                },(err) => {
-                    let msg = 'Não foi possível atualizar o cartao remotamente';
-                    if ((typeof err.status != 'undefined') && (Math.floor(err.status/100) == 4)) {
-                        msg = err.response.data.map((x) => x.message).join(', ');
-                    }
-
-                    this.$toast.error(msg);
-                });
-            }
         },
 
         cardArchive(idColumn,card) {
-            let index = this.columns.findIndex((c) => c.id == idColumn);
-            if (index >= 0) {
-                ApiCard.arquivar(card,() => {
-                    let cardIndex = this.columns[index].cards.findIndex((x) => x.id == card.id);
-                    if (cardIndex >= 0) {
-                        this.columns[index].cards.splice(cardIndex,1);
-                    } else {
-                        this.atualizarDados();
-                    }
-                },() => {
-                    this.$toast.error('Não foi possível arquivar o cartão '+card.todo);
-                })
-            }
         },
 
         cardAdd(idColumn,card) {
-            ApiCard.adicionar(idColumn,card,() => {
-                this.atualizarDados();
-            },() => {
-                this.$toast.error('Não foi possível cadastrar o cartão');
-            });
         },
 
         clickSaveColumn() {
-            ApiColumn.adicionar(this.coluna,() => {
-                this.atualizarDados();
-                this.coluna = '';
-            },(err) => {
-                if ((typeof err.response.status != 'undefined') && (err.response.status == 422)) {
-                    this.$toast.error(err.response.data.map((e) => e.message).join(', '));
-                } else {
-                    this.$toast.error('Ocorreu um erro no cadastro do cartão');
-                }
-            });
         }
     }
 }

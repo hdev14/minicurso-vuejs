@@ -35,13 +35,8 @@ export default {
     },
     methods: {
         clickArquivar() {
-            if (confirm('O cartão '+this.tarefa+' deve ser arquivado?')) {
-                this.$emit('cardArchive',{id: this.id, todo: this.tarefa});
-            }
         },
         clickSalvar() {
-            this.$emit('cardSave',{id: this.id, todo: this.tarefa});
-            this.edit = false;
         }
     }
 }

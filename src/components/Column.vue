@@ -61,36 +61,17 @@ export default {
     },
     methods: {
         clickSalvar() {
-            if (this.titulo != '') {
-                this.$emit('columnChange',{id: this.id, title: this.titulo});
-                this.edit = false;
-            }
         },
         clickArquivar() {
-            if (confirm('Deseja arquivar a coluna '+this.titulo+'?')) {
-                this.$emit('columnArchive',{id: this.id, title: this.titulo})
-            }
         },
 
         cardSave(card) {
-            let index = this.cards.findIndex((x) => x.id == card.id);
-            if (index >= 0) {
-                this.cards[index].todo = card.todo;
-                this.$emit('cardSave',this.id,card);
-            } else this.$toast.error('Não foi possível localizar o cartão localmente');
         },
         cardArchive(card) {
-            this.$emit('cardArchive',this.id,card);
         },
         clickAdd() {
-            this.tarefa = '';
-            this.add = true;
         },
         clickAdicionar() {
-            if (this.tarefa != '') {
-                this.$emit('cardAdd',this.id,{ todo: this.tarefa });
-            }
-            this.add = false;
         }
     }
 }
