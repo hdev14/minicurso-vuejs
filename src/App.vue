@@ -4,8 +4,14 @@
 
 	<!-- <a v-bind:href="link" target="_blank">{{ message }}</a> -->
 	<div>
-		<div v-if="display"> Exibindo a primeira opção</div>
-		<div v-else>Outra opção no caso contrário</div>
+		<!-- <div v-if="display"> Exibindo a primeira opção</div>
+		<div v-else>Outra opção no caso contrário</div> -->
+		<h1>Lista de Compra</h1>
+		<ul>
+			<li v-for="item in products" :key="item">{{ item }}</li>
+		</ul>
+
+		<button class="btn btn-primary">Inserir</button>
 	</div>
 
 </template>
@@ -31,9 +37,10 @@
 
 		data: () => {
 			return {
-				message: 'Hello World',
-				link: 'https://google.com',
-				display: true
+				// message: 'Hello World',
+				// link: 'https://google.com',
+				// display: true,
+				products: ['Arroz', 'Feijão', 'Suco Fruta']
 			};
 		}
 	}
