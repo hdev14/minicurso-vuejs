@@ -14,7 +14,7 @@ import router from '../router'
 let config = {
   //baseURL: process.env.baseURL || process.env.apiUrl || "http://localhost:8080/",
     //baseURL: "http://todolist.eyglys.com.br/",
-  baseURL: "http://192.168.1.7/",
+  baseURL: "http://10.49.6.33/",
   // timeout: 60 * 1000, // Timeout
   /*withCredentials: true, // Check cross-site Access-Control
   crossDomain: true,
