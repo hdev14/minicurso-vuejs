@@ -23,9 +23,13 @@
         </form>
     </div>
 </template>
+
 <script>
+
 import UserApi from '../api/User'
+
 export default {
+    
     name: 'Cadastro',
     data: () => {
         return {
@@ -34,13 +38,17 @@ export default {
             senha: '',
         };
     },
+
     methods: {
         cadastrar() {
-            UserApi.cadastrar(this.nome,this.login,this.senha,() => {
+            UserApi.cadastrar(this.nome, this.login, this.senha, () => {
                 this.$router.push('/dashboard');
-            },(err) => {
-                if ((typeof err.response.status != 'undefined') && (err.response.status == 422)) {
-                    this.$toast.error(err.response.data.map((e) => e.message).join(', '));
+            }, (err) => {
+                if ((typeof err.response.status !== 'undefined') && (err.response.status === 422)) {
+                    
+                    let error_messages = err.response.data.map((e) => e.message).join(', ');
+                    this.$toast.error(error_messages);
+
                 } else {
                     this.$toast.error('Ocorreu um erro no cadastro do usuário');
                 }
@@ -49,6 +57,7 @@ export default {
     }
 }
 </script>
+
 <style>
     div.cadastro {
         max-width: 50rem;

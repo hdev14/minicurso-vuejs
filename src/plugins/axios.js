@@ -13,7 +13,7 @@ import router from '../router'
 
 let config = {
   //baseURL: process.env.baseURL || process.env.apiUrl || "http://localhost:8080/",
-    //baseURL: "http://todolist.eyglys.com.br/",
+  //baseURL: "http://todolist.eyglys.com.br/",
   baseURL: "http://10.49.6.33/",
   // timeout: 60 * 1000, // Timeout
   /*withCredentials: true, // Check cross-site Access-Control
@@ -29,9 +29,9 @@ _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
     let token = '';
-    if (typeof localStorage.token != 'undefined') token = localStorage.token;
+    if (typeof localStorage.token !== 'undefined') token = localStorage.token;
 
-    if (token != '') config.headers.Authorization = 'Bearer ' + token;
+    if (token !== '') config.headers.Authorization = 'Bearer ' + token;
     return config;
   },
   function(error) {
@@ -49,7 +49,7 @@ _axios.interceptors.response.use(
   function(error) {
     // Do something with response error
 
-    if (error.response.status == 401) {
+    if (error.response.status === 401) {
       router.push('/');
     }
     return Promise.reject(error);

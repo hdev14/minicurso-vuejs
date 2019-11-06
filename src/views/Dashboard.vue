@@ -1,85 +1,118 @@
 <template>
-    <div class="column-container">
-        <column
-        class="item"
-        v-for="item in columns"
-        :id="item.id"
-        :key="item.id"
-        :title="item.name"
-        :cards="item.cards"
-         @columnChange="columnChange"
-         @columnArchive="columnArchive"
-         @cardSave="cardSave"
-         @cardArchive="cardArchive"
-         @cardAdd="cardAdd"
-          />
-          <div class="column-new item">
-              <div>
-                  <header>Nova coluna</header>
-                  <input type="text" class="form-control" @keyup.enter="clickSaveColumn" v-model="coluna" />
-                  <button class="btn btn-success" @click="clickSaveColumn">Salvar</button>
-              </div>
-          </div>
+  <div class="column-container">
+    <column
+    class="item"
+    v-for="item in columns"
+    :id="item.id"
+    :key="item.id"
+    :title="item.name"
+    :cards="item.cards"
+    @columnChange="columnChange"
+    @columnArchive="columnArchive"
+    @cardSave="cardSave"
+    @cardArchive="cardArchive"
+    @cardAdd="cardAdd"
+    />
+    <div class="column-new item">
+      <div>
+        <header>Nova coluna</header>
+        <input type="text" class="form-control" @keyup.enter="clickSaveColumn" v-model="column" />
+        <button class="btn btn-success" @click="clickSaveColumn">Salvar</button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import Column from '../components/Column.vue';
-//import ApiColumn from '../api/Column';
+
+  import Column from '../components/Column.vue';
+  import ApiColumn from '../api/Column';
 //import ApiCard from '../api/Card';
 //import Vue from 'vue';
+
 export default {
-    name: 'Dashboard',
-    components: {
-        Column
+
+  name: 'Dashboard',
+  components: {
+    Column
+  },
+
+  data: () => {
+    return {
+      columns:[],
+      column: ''
+    };
+  },
+
+  created() {
+    this.atualizarDados();
+  },
+
+  methods: {
+
+    atualizarDados() {
+      ApiColumn.carregar((data) => {
+        this.columns = data;
+      },() => {
+        this.$toast.error('Erro ao carregar os dados');
+      });
     },
-    data: () => {
-        return {
-            columns:[],
-            coluna: ''
-        };
-    },
-    created() {
+
+    clickSaveColumn() {
+
+      ApiColumn.adicionar(this.column, () => {
         this.atualizarDados();
-    },
-    methods: {
+        this.column = '';
+      },(err) => {
+
+        if ((typeof err.response.status !== 'undefined') 
+          && (err.response.status === 422)) {
+
+          this.$toast.error(err.response.data.map((e) => e.message).join(', '));
+
+        } else {
+          this.$toast.error('Ocorreu um erro no cadastro do cartão');
+        }
+
+      });
 
     }
+  }
 }
 </script>
 
 <style>
 div.column-container {
-    padding: 2rem;
-    height: calc(100vh - 4rem);
-    overflow-x: auto;
-    display:flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  padding: 2rem;
+  height: calc(100vh - 4rem);
+  overflow-x: auto;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 div.column-container .item {
-    flex-grow: 0;
-    min-width: 15rem;
-    max-width: 15rem;
+  flex-grow: 0;
+  min-width: 15rem;
+  max-width: 15rem;
 }
 div.column-container > .item +  .item {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 div.column-container > .column-new > div {
-    background-color: rgb(255,255,255,0.5);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+  background-color: rgb(255,255,255,0.5);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 div.column-container > .column-new > div header {
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
 div.column-container > .column-new > div button {
-    margin-top: 0.3rem;
+  margin-top: 0.3rem;
 }
 </style>

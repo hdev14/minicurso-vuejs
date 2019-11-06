@@ -33,6 +33,7 @@
 <script>
 import UserApi from '../api/User'
 export default {
+    
     name: 'Login',
     data: () => {
         return {
@@ -40,13 +41,13 @@ export default {
             senha: '',
         };
     },
+
     methods: {
         autenticar() {
-            this.error = false;
-            UserApi.autenticar(this.login,this.senha,() => {
+            UserApi.autenticar(this.login, this.senha, () => {
                 this.login = this.senha = '';
                 this.$router.push('/dashboard');
-            },()=> {
+            }, ()=> {
                 //login/senha incorretos
                 this.$toast.error('Login/senha incorretos');
             });
