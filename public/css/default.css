@@ -1,0 +1,22 @@
+body {
+    background-color: #2d74b0;
+}
+
+body > main > header {
+    background-color: #b2b0bf;
+    font-size: 2rem;
+    padding: 0.2rem;
+    position: fixed;
+    display: block;
+    width: 100%;
+}
+body > main > section {
+    padding-top: 4rem;
+}
+a {
+    color: #ffa72f;
+}
+
+h1 {
+    text-align: center;
+}
