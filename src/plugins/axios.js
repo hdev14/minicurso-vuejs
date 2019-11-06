@@ -21,7 +21,6 @@ let config = {
   headers: {
     'Access-Control-Allow-Origin': '*'
   }*/
-  defaultRoute: '/'
 };
 
 const _axios = axios.create(config);
