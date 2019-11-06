@@ -31,7 +31,7 @@
              </div>
         </section>
         <footer>
-            <button class="btn btn-primary" @click="clickAdd">Adicionar cartão</button>
+            <button class="btn btn-primary">Adicionar cartão</button>
         </footer>
     </section>
 </template>
@@ -60,19 +60,7 @@ export default {
         this.titulo = this.title;
     },
     methods: {
-        clickSalvar() {
-        },
-        clickArquivar() {
-        },
-
-        cardSave(card) {
-        },
-        cardArchive(card) {
-        },
-        clickAdd() {
-        },
-        clickAdicionar() {
-        }
+        
     }
 }
 </script>

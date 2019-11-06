@@ -25,9 +25,9 @@
 
 <script>
 import Column from '../components/Column.vue';
-import ApiColumn from '../api/Column';
-import ApiCard from '../api/Card';
-import Vue from 'vue';
+//import ApiColumn from '../api/Column';
+//import ApiCard from '../api/Card';
+//import Vue from 'vue';
 export default {
     name: 'Dashboard',
     components: {
@@ -43,24 +43,7 @@ export default {
         this.atualizarDados();
     },
     methods: {
-        atualizarDados() {
-        },
-        columnChange(column) {
-        },
-        columnArchive(column) {
-        },
 
-        cardSave(idColumn,card) {
-        },
-
-        cardArchive(idColumn,card) {
-        },
-
-        cardAdd(idColumn,card) {
-        },
-
-        clickSaveColumn() {
-        }
     }
 }
 </script>

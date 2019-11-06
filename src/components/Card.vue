@@ -34,10 +34,7 @@ export default {
         this.tarefa = this.todo;
     },
     methods: {
-        clickArquivar() {
-        },
-        clickSalvar() {
-        }
+        
     }
 }
 </script>
